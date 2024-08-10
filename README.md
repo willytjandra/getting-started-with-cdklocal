@@ -1,14 +1,49 @@
-# Welcome to your CDK TypeScript project
+# Getting Started with cdklocal
 
-This is a blank project for CDK development with TypeScript.
+This repository serves as a playground to get started with [cdklocal](https://github.com/localstack/aws-cdk-local).
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+# Getting Started
 
-## Useful commands
+This repo is based on simple example shown below.
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+![Simple Infrastructure](/docs/example-simple-infra.png)
+
+To get started,
+
+- Clone this repo.
+- Install package dependencies
+
+```
+npm i
+```
+
+- Run Localstack in a container.
+
+```
+docker compose up
+```
+
+- For the first time, run cdk bootstrap
+
+```
+npm run cdk:local bootstrap --custom-permissions-boundary localstack-development-policy
+```
+
+- Deploy your resources into Localstack
+
+```
+npm run deploy:local
+```
+
+If everything works, you should have your resources deployed to Localstack container.
+
+Run these commands to verify the resources
+
+```
+aws s3 --endpoint-url http://localhost:4566 ls
+aws dynamodb --endpoint-url http://localhost:4566 list-tables
+```
+
+## Updating your CDK App
+
+If you'd like to test other resources, you can modify [getting-started-with-cdklocal-stack.ts](./lib/getting-started-with-cdklocal-stack.ts). Then, run `npm run deploy:local`
